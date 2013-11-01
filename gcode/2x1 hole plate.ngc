@@ -1,0 +1,59 @@
+M119 (2 hole x 1 hole plate)
+
+Notes:
+* Feed the instructions 1 at a time to marlin. Sometimes multiple instructions sent at once cause them to be run wrong.
+* M119s are because you need a gcode before comments on marlin and I thought it was harmless, but it might be messing up timings so don't send them.
+
+M119 (Does piercing away from edges)
+M119 (Doesn't preheat metal or account for torch width)
+
+M119 (Last time I ran this the holes came out wrong but they worked previously. Maybe there's a bug or maybe I send too many instructions at once to the firmware. Maybe the M119's are breaking stuff by tying up too much time while control is going on.)
+
+M119 (TODO adjust z vals for half inch metal once torch is mounted)
+
+G28 (go home to start to ensure we know where we are)
+
+M119 (Cut border - a rect from 0,0 to 203.2,101.6)
+G90 (absolute positioning)
+G0 Z 0 F 3000 (tool up)
+G0 X 230 Y 0 F 3000 (go to piercing area)
+G0 Z 30 F 3000 (tool down)
+M84 (motors off)
+G4 S5 (pause for pierce)
+G1 X 0 Y 0 F 2000
+G1 X 0 Y 101.6 F 2000
+G1 X 203.2 Y 101.6 F 2000
+G1 X 203.2 Y 0 F 2000
+G0 X 230 Y 0 F 3000 (go to piercing area)
+G0 Z 0 F 3000 (lift tool)
+
+M119 (Cut left hole- x 2in and y 2in)
+G90 (absolute positioning)
+G0 X 50.8 F 3000 (center of hole)
+G0 Y 50.8 F 3000 (center of hole)
+M84 (motors off)
+G1 Z 30 F 3000 (lower tool)
+G4 S5 (pause for pierce)
+G1 X 64.2938 Y 50.8 F 2000 (go to hole edge)
+M119 (something's not working if I set speed faster than 100)
+G2 X 37.3062 Y 50.8 I -13.4938 F 100 (first half of circle)
+G2 X 64.2938 Y 50.8 I 13.4938 F 100 (second half of circle)
+G1 X 50.8 Y 50.8 F 2000 (center of hole)
+G0 Z 0 F 3000 (lift tool)
+
+M119 (Cut right hole- x 6in and y 2in)
+G90 (absolute positioning)
+G0 X 152.4 F 3000 (center of hole)
+G0 Y 50.8 F 3000 (center of hole)
+M84 (motors off)
+G1 Z 30 F 3000 (lower tool)
+G4 S5 (pause for pierce)
+G1 X 165.8938 Y 50.8 F 2000 (go to hole edge)
+G2 X 138.9062 Y 50.8 I -13.4938 F 100 (first half of circle)
+M119 (something's not working if I set speed faster than 100)
+G2 X 165.8938 Y 50.8 I 13.4938 F 100 (second half of circle)
+G1 X 152.4 Y 50.8 F 2000 (center of hole)
+G0 Z 0 F 3000 (lift tool)
+
+G28 (go home)
+M84 (motors off)
